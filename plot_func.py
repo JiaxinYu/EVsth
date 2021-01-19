@@ -42,17 +42,25 @@ def plot_alltime(df):
   plt.savefig(rootpath/'index_{}.png'.format(dt.date.today()), dpi=300)
 
 
-def plot_index(df, date, idxname, cmap):
+def plot_index(df, date, idxname, cmap='b'):
   # plot with 3 shifts
   fig, axes = plt.subplots(3, 1, figsize=(28, 12), dpi=300)
   swt = getshiftwork(df, date)
   axes[0].set_title(date+'_'+idxname, fontsize=20)
-  # set x-axis
-  for i in range(3):
-    im = axes[i].plot(df[idxname][swt[i]:swt[i+1]].astype('int').to_numpy(), color=cmap)
-    plt.sca(axes[i])
-    plt.xticks(fontsize=14)
-    plt.xticks(np.array(range(0, 180*8, 180)), np.array(range(i*8, (i+1)*8)))
+  
+  if idxname == 'BP':
+    for i in range(3):
+      im = axes[i].plot(df['SBP'][swt[i]:swt[i+1]].astype('int').to_numpy(), color='r')
+      im = axes[i].plot(df['DBP'][swt[i]:swt[i+1]].astype('int').to_numpy(), color='b')
+      plt.sca(axes[i])
+      plt.xticks(fontsize=14)
+      plt.xticks(np.array(range(0, 180*8, 180)), np.array(range(i*8, (i+1)*8)))
+  else:
+    for i in range(3):
+      im = axes[i].plot(df[idxname][swt[i]:swt[i+1]].astype('int').to_numpy(), color=cmap)
+      plt.sca(axes[i])
+      plt.xticks(fontsize=14)
+      plt.xticks(np.array(range(0, 180*8, 180)), np.array(range(i*8, (i+1)*8)))
 
   plt.savefig(rootpath/'{}_{}.png'.format(idxname, date), dpi=300)
 

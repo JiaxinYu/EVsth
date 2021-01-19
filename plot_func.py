@@ -57,17 +57,16 @@ def plot_index(df, date, idxname, cmap):
   plt.savefig(rootpath/'{}_{}.png'.format(idxname, date), dpi=300)
 
   
- def plot_EventIndex(eventname, df, date, tpoint, idxname, cmap='b'):
+def plot_EventIndex(eventname, df, date, tpoint, idxname, cmap='b'):
   # get event time point
   temp = df[df['date'].str.contains(date, na=False)]
   t0 = temp[temp['time'].str.contains(tpoint, na=False)].index[0]
-
+  dt = np.array(range(-90, 45*7, 45))
+  
   fig, axes = plt.subplots(figsize=(28, 4), dpi=300)
   axes.set_title(eventname, fontsize=20)
   axes.plot(df[idxname].iloc[(t0-90):(t0+270)].astype('int').to_numpy(), label=idxname, color=cmap)
   plt.xticks(fontsize=14)
-  plt.xticks(np.array(range(0, 360, 45)), \
-             [df['time'][(t0-90)][:5], df['time'][(t0-45)][:5], df['time'][(t0)][:5], df['time'][(t0+45)][:5], df['time'][(t0+90)][:5], \
-              df['time'][(t0+135)][:5], df['time'][(t0+180)][:5], df['time'][(t0+225)][:5], df['time'][(t0+270)][:5]])
+  plt.xticks(np.array(range(0, 360, 45)), [df['time'][dt[i]+t0][:5] for i in range(9)])
   plt.legend(loc='upper right', prop={'size': 24})
   plt.savefig(rootpath/'{}_{}_{}.png'.format(eventname, idxname, date), dpi=300)

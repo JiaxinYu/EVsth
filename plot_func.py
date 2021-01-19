@@ -39,7 +39,6 @@ def plot_alltime(df):
   im = axes[1].plot(np.ones(len(df)) - 0.1, color='r', linestyle='--', lw=3)
   
   im = axes[2].plot(df['CO'].astype('float').to_numpy(), label='CO', color='g')
-  plt.savefig(rootpath/'VIP01100113.png', dpi=300)
   plt.show()
 
 

@@ -21,14 +21,10 @@ def getshiftwork(df, date):
 
 
 def cal_ma(seq):
-  wsize = 3
-
+  wsize = 3 * 5
   n_series = pd.Series(seq)
-  windows = n_series.rolling(wsize)
-  ma = windows.mean()
-
-  ma_list = ma.tolist()
-  return ma_list[wsize - 1:]
+  ma = n_series.rolling(wsize, min_periods=1).mean()
+  return ma.tolist()
 
 
 def plot_index(df, date, idxname, cmap='b'):
